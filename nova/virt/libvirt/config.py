@@ -1573,6 +1573,16 @@ class LibvirtConfigGuestHostdevPCI(LibvirtConfigGuestHostdev):
         self.slot = None
         self.function = None
 
+        self.name = None
+
+    def vfio_dom(self):
+        dev = super(LibvirtConfigGuestHostdevPCI, self).format_dom()
+        
+        driver = etree.Element("driver", name='vfio')
+
+        dev.append(driver)
+        return dev
+                               
     def format_dom(self):
         dev = super(LibvirtConfigGuestHostdevPCI, self).format_dom()
 
@@ -1589,6 +1599,8 @@ class LibvirtConfigGuestHostdevPCI(LibvirtConfigGuestHostdev):
     def parse_dom(self, xmldoc):
         childs = super(LibvirtConfigGuestHostdevPCI, self).parse_dom(xmldoc)
         for c in childs:
+            if c.tag == "driver":
+                self.name = sub.get('name')
             if c.tag == "source":
                 for sub in c.getchildren():
                     if sub.tag == 'address':
