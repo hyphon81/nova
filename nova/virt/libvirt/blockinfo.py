@@ -82,7 +82,7 @@ from nova import exception
 from nova.i18n import _
 from nova.objects import base as obj_base
 from nova.virt import configdrive
-from nova.virt import driver
+
 from nova.virt.libvirt import utils as libvirt_utils
 from nova.virt import osinfo
 
@@ -474,6 +474,7 @@ def default_device_names(virt_type, context, instance, block_device_info,
 
 
 def get_default_ephemeral_info(instance, disk_bus, block_device_info, mapping):
+    from nova.virt import driver
     ephemerals = driver.block_device_info_get_ephemerals(block_device_info)
     if instance.ephemeral_gb <= 0 or ephemerals:
         return None
@@ -509,7 +510,7 @@ def get_disk_mapping(virt_type, instance,
 
        Returns the guest disk mapping for the devices.
     """
-
+    from nova.virt import driver
     mapping = {}
 
     if rescue:
