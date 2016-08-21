@@ -21,7 +21,6 @@ Scheduler base class that all Schedulers should inherit from
 
 import abc
 
-from oslo_utils import importutils
 import six
 from stevedore import driver
 
