@@ -51,28 +51,12 @@ class SchedulerManager(manager.Manager):
     def __init__(self, scheduler_driver=None, *args, **kwargs):
         if not scheduler_driver:
             scheduler_driver = CONF.scheduler_driver
-        try:
-            self.driver = driver.DriverManager(
-                    "nova.scheduler.filter_scheduler",
-                    scheduler_driver,
-                    invoke_on_load=True).driver
-        # TODO(Yingxin): Change to catch stevedore.exceptions.NoMatches after
-        # stevedore v1.9.0
-        except RuntimeError:
-            # NOTE(Yingxin): Loading full class path is deprecated and should
-            # be removed in the N release.
-            try:
-                self.driver = importutils.import_object(scheduler_driver)
-                LOG.warning(_LW("DEPRECATED: scheduler_driver uses "
-                                "classloader to load %(path)s. This legacy "
-                                "loading style will be removed in the "
-                                "N release."),
-                            {'path': scheduler_driver})
-            except (ImportError, ValueError):
-                raise RuntimeError(
-                        _("Cannot load scheduler driver from configuration "
-                          "%(conf)s."),
-                        {'conf': scheduler_driver})
+        
+        self.driver = driver.DriverManager(
+            "nova.scheduler.filter_scheduler",
+            scheduler_driver,
+            invoke_on_load=True).driver
+        
         super(SchedulerManager, self).__init__(service_name='scheduler',
                                                *args, **kwargs)
 
