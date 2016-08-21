@@ -53,7 +53,7 @@ class SchedulerManager(manager.Manager):
             scheduler_driver = CONF.scheduler_driver
         
         self.driver = driver.DriverManager(
-            "nova.scheduler.filter_scheduler",
+            "nova.scheduler.driver",
             scheduler_driver,
             invoke_on_load=True).driver
         
