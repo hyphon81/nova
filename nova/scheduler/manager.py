@@ -52,11 +52,8 @@ class SchedulerManager(manager.Manager):
         if not scheduler_driver:
             scheduler_driver = CONF.scheduler_driver
         
-        self.driver = driver.DriverManager(
-            "nova.scheduler.driver",
-            scheduler_driver,
-            invoke_on_load=True).driver
-        
+        self.driver = importutils.import_object(scheduler_driver)
+    
         super(SchedulerManager, self).__init__(service_name='scheduler',
                                                *args, **kwargs)
 
