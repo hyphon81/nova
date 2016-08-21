@@ -53,7 +53,7 @@ class SchedulerManager(manager.Manager):
             scheduler_driver = CONF.scheduler_driver
         try:
             self.driver = driver.DriverManager(
-                    "nova.scheduler.driver",
+                    "nova.scheduler.filter_scheduler",
                     scheduler_driver,
                     invoke_on_load=True).driver
         # TODO(Yingxin): Change to catch stevedore.exceptions.NoMatches after
