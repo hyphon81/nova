@@ -40,7 +40,7 @@ def parse_args(argv, default_config_files=None, configure_db=True,
     config.set_middleware_defaults()
 
     CONF(argv[1:],
-         project='nova',
+         project='nova-for-gpu-passthrough',
          version=version.version_string(),
          default_config_files=default_config_files)
 
