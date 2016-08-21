@@ -37,8 +37,12 @@ class Scheduler(object):
     """The base class that all Scheduler classes should inherit from."""
 
     def __init__(self):
-        self.host_manager = importutils.import_object(
-            CONF.scheduler_host_manager)
+        #self.host_manager = importutils.import_object(
+        #    CONF.scheduler_host_manager)
+        self.host_manager = driver.DriverManager(
+            "nova.scheduler.host_manager",
+            CONF.scheduler_host_manager,
+            invoke_on_load=True).driver
         self.servicegroup_api = servicegroup.API()
 
     def run_periodic_tasks(self, context):
